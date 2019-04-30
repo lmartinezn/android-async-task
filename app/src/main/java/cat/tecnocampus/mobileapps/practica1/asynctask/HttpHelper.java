@@ -11,6 +11,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class HttpHelper extends AsyncTask<String, String, String> {
+    public AsyncResponse delegate = null;
+
     @Override
     protected String doInBackground(String... strings) {
         String url = strings[0];
@@ -55,6 +57,12 @@ public class HttpHelper extends AsyncTask<String, String, String> {
 
     @Override
     protected void onPostExecute(String s) {
-        super.onPostExecute(s);
+        if (delegate != null) {
+            delegate.setAsyncContentResult(s);
+        }
+    }
+
+    public interface AsyncResponse {
+        void setAsyncContentResult(String result);
     }
 }
