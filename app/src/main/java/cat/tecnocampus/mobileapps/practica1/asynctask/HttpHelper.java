@@ -3,7 +3,10 @@ package cat.tecnocampus.mobileapps.practica1.asynctask;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -27,12 +30,27 @@ public class HttpHelper extends AsyncTask<String, String, String> {
             Log.d("SwA", "ERROR!");
             ex.printStackTrace();
         } finally {
-            if (connection != null) {
+            if (connection != null) {//Si la connection s'ha arribat a obrir, la tanquem per acabar
                 connection.disconnect();
             }
         }
 
         return json;
+    }
+
+    private String readIt(InputStream is) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+        StringBuilder str = new StringBuilder();
+        String line = null;
+
+        while ((line = reader.readLine()) != null) {
+            str.append(line);
+        }
+
+        is.close(); /*Molt important, si deixem l'inputStream obert
+         no ens deixarà tancar la connexió*/
+
+        return str.toString();
     }
 
     @Override
