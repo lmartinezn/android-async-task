@@ -63,6 +63,6 @@ public class HttpHelper extends AsyncTask<String, String, String> {
     }
 
     public interface AsyncResponse {
-        void setAsyncContentResult(String result);
+        void setAsyncContentResult(String json);
     }
 }
